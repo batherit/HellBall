@@ -16,6 +16,8 @@ public class CS_PlayerController : MonoBehaviour {
     void Start () {
         CS_Managers.Instance.gameManager.ED_StartGame += InitForStart;
         CS_Managers.Instance.gameManager.ED_ResetGame += ResetGame;
+
+        ED_Dead += Died;
  
         transform.position = startPoint.position;
         rb = GetComponent<Rigidbody2D>();
@@ -53,12 +55,18 @@ public class CS_PlayerController : MonoBehaviour {
         }
 	}
 
+    void Died()
+    {
+        rb.bodyType = RigidbodyType2D.Static;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "Obstacle")
+        switch (collision.gameObject.tag)
         {
-            rb.bodyType = RigidbodyType2D.Static;
-            ED_Dead();
+            case "Obstacle":
+                ED_Dead();
+                break;
         }
     }
 }

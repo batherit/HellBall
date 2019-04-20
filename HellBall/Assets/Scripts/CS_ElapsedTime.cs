@@ -19,12 +19,17 @@ public class CS_ElapsedTime : MonoBehaviour {
         {
             elapsedTime += Time.deltaTime;
 
-            TEXT_elapsedTime.text =
+            UpdateText();
+        }
+	}
+
+    public void UpdateText()
+    {
+        TEXT_elapsedTime.text =
                 ConvertToHour(elapsedTime).ToString("00") +
                 ":" + (ConvertToMinute(elapsedTime) % 60).ToString("00") +
                 ":" + (ConvertToSecond(elapsedTime) % 60).ToString("00");
-        }
-	}
+    }
 
     public void On()
     {
@@ -39,6 +44,8 @@ public class CS_ElapsedTime : MonoBehaviour {
     public void Zero()
     {
         elapsedTime = 0.0f;
+
+        UpdateText();
     }
 
     public float Get()
