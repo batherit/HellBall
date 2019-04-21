@@ -9,7 +9,7 @@ public class CS_MapGenerator : MonoBehaviour {
     public Text TEXT_CheckedPointsNum;
 
     public const int initObstacleNum = 40;
-    public const int initCheckPointNum = 1;
+    public const int initCheckPointNum = 100;
     private int CheckedPointNum;
 
     GameObject prefabObstacle;
@@ -19,6 +19,10 @@ public class CS_MapGenerator : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        obstacles = null;
+        checkPoints = null;
+        prefabObstacle = Resources.Load("Prefabs/ObstacleSet") as GameObject;
+        prefabCheckPoint = Resources.Load("Prefabs/CheckPoint") as GameObject;
         CS_Managers.Instance.gameManager.ED_ResetGame += ResetGame;
         TEXT_CheckedPointsNum.text = CheckedPointNum.ToString("00") + '/' + initCheckPointNum.ToString("00");
         GenerateMap();
@@ -27,8 +31,10 @@ public class CS_MapGenerator : MonoBehaviour {
     void GenerateMap()
     {
         // 정상적인 체크포인트 생성을 위해 장애물을 먼저 생성한다.
-        GenerateObstacles();
-        GenerateCheckPoints();
+        Invoke("GenerateObstacles", 0.0f);
+
+        // 약간의 시간 지연이 존재하여야 장애물이 제대로 설치된다.
+        Invoke("GenerateCheckPoints", 0.05f);
     }
 
     void GenerateObstacles()
@@ -43,13 +49,13 @@ public class CS_MapGenerator : MonoBehaviour {
             obstacles = null;
         }
 
-        prefabObstacle = Resources.Load("Prefabs/ObstacleSet") as GameObject;
+        
         obstacles = new GameObject[initObstacleNum];
 
         for (int i = 0; i < initObstacleNum; i++)
         {
             obstacles[i] = Instantiate(prefabObstacle);
-            obstacles[i].transform.localPosition = new Vector3(Random.Range(-2.0f, 2.0f), -i * 5.0f - 5.0f, 0.0f);
+            obstacles[i].transform.position = new Vector3(Random.Range(-2.0f, 2.0f), -i * 5.0f - 5.0f, 0.0f);
         }
     }
 
@@ -70,21 +76,27 @@ public class CS_MapGenerator : MonoBehaviour {
         float startY = checkPointBoundary.bounds.min.y;
         float endX = checkPointBoundary.bounds.max.x;
         float endY = checkPointBoundary.bounds.max.y;
-        float gapY = (endY - startY) / (float)initCheckPointNum;
-        prefabCheckPoint = Resources.Load("Prefabs/CheckPoint") as GameObject;
+        float gapY = (endY - startY) / initCheckPointNum;
+        
         checkPoints = new GameObject[initCheckPointNum];
 
         for (int i = 0; i < initCheckPointNum; i++)
         {
             bool isGenerated = false;
+            checkPoints[i] = Instantiate(prefabCheckPoint);
+            float radius = checkPoints[i].GetComponent<CircleCollider2D>().radius * checkPoints[i].transform.localScale.x;
+
             while (!isGenerated)
             {
-                Ray2D ray = new Ray2D(new Vector2(Random.Range(startX, endX), Random.Range(startY + (float)i * gapY, startY + (float)(i + 1) * gapY)), Vector2.zero);
+                //Ray2D ray = new Ray2D(new Vector2(Random.Range(startX, endX), Random.Range(startY + (float)i * gapY, startY + (float)(i + 1) * gapY)), Vector3.zero);
+                //RaycastHit2D hit = Physics2D.CircleCast(ray.origin, radius, ray.direction, Mathf.Infinity, LayerMask.GetMask(new string[] { "Obstacle" }));
 
-                if (!Physics.Raycast(ray.origin, ray.direction))
+                Vector2 pos = new Vector2(Random.Range(startX, endX), Random.Range(startY + i * gapY, startY + (i + 1) * gapY));
+                Collider2D hit = Physics2D.OverlapCircle(pos, radius, LayerMask.GetMask(new string[] { "Obstacle" }));
+                
+                if (!hit)
                 {
-                    checkPoints[i] = Instantiate(prefabCheckPoint);
-                    checkPoints[i].transform.localPosition = ray.origin;
+                    checkPoints[i].transform.position = pos;
                     checkPoints[i].GetComponent<CS_CheckPoint>().mapGenerator = this;
                     isGenerated = true;
                 }
