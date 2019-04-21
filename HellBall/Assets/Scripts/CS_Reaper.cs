@@ -16,27 +16,50 @@ public class CS_Reaper : MonoBehaviour {
     private const float radius = 10.0f;
     private const float velocity = 3.0f;
 
+    private bool isActived;
+
     private void Start()
     {
+        CS_Managers.Instance.gameManager.ED_StartGame += StartGame;
+        CS_Managers.Instance.gameManager.ED_ResetGame += ResetGame;
+
         player = GameObject.Find("Player");
         mapBoundary = GameObject.Find("ReaperBoundary").GetComponent<BoxCollider2D>();
-        directionDegree = Random.Range(0.0f, 360.0f);
-        UpdatePosition(directionDegree);
+        ResetGame();
     }
 
     private void Update()
     {
-        // 매 프레임당 1% 확률로 방향을 플레이어 쪽으로 갱신.
-        if (Random.Range(0.0f, 1.0f) < 0.01f)
+        if(isActived)
         {
-            directionDegree = Mathf.Acos(Vector2.Dot((player.transform.position - transform.position).normalized, Vector2.right)) * Mathf.Rad2Deg;
-            if (player.transform.position.y < transform.position.y) directionDegree *= -1.0f;
+            // 매 프레임당 0.6% 확률로 방향을 플레이어 쪽으로 갱신.
+            if (Random.Range(0.0f, 1.0f) < 0.006f)
+            {
+                directionDegree = Mathf.Acos(Vector2.Dot((player.transform.position - transform.position).normalized, Vector2.right)) * Mathf.Rad2Deg;
+                if (player.transform.position.y < transform.position.y) directionDegree *= -1.0f;
 
+            }
+
+            directionDegree += Random.Range(-jitter, jitter);
+
+            UpdatePosition(directionDegree);
         }
+    }
 
-        directionDegree += Random.Range(-jitter, jitter);
+    private void StartGame()
+    {
+        isActived = true;
+    }
 
+    private void ResetGame()
+    {
+        transform.position = 
+            new Vector2(
+                Random.Range(mapBoundary.bounds.min.x, mapBoundary.bounds.max.x),
+                Random.Range(mapBoundary.bounds.min.y, mapBoundary.bounds.max.y));
+        directionDegree = Random.Range(0.0f, 360.0f);
         UpdatePosition(directionDegree);
+        isActived = false;
     }
 
     private void UpdatePosition(float dirDeg)
@@ -77,15 +100,4 @@ public class CS_Reaper : MonoBehaviour {
         directionDegree = Mathf.Acos(Vector2.Dot(target.normalized, Vector2.right)) * Mathf.Rad2Deg;
         if (target.y < Vector2.right.y) directionDegree *= -1.0f;
     }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(collision.gameObject.name == "Player")
-        {
-
-        }
-    }
-
-    
-
 }

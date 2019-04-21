@@ -15,6 +15,8 @@ public class CS_GameManager : MonoBehaviour {
     public delegate void DELEGATE_ResetGame();
     public DELEGATE_ResetGame ED_ResetGame;
 
+    
+
     private void Start()
     {
         player.ED_Dead += EndGame;

@@ -180,7 +180,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Click to start.
+  m_Text: Press 'SpaceBar' to start.
 --- !u!222 &191376959
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1112,11 +1112,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 18
       objectReference: {fileID: 0}
-    - target: {fileID: 58056514175828840, guid: c37afab846f66be4cba11952530e0260,
-        type: 2}
-      propertyPath: m_Radius
-      value: 0.28
-      objectReference: {fileID: 0}
     - target: {fileID: 1633578812534298, guid: c37afab846f66be4cba11952530e0260, type: 2}
       propertyPath: m_Name
       value: Reaper (3)
@@ -1567,7 +1562,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Click to reset.
+  m_Text: Press 'SpaceBar' to reset.
 --- !u!222 &1104316484
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2665,11 +2660,6 @@ Prefab:
     - target: {fileID: 4500620264097384, guid: c37afab846f66be4cba11952530e0260, type: 2}
       propertyPath: m_RootOrder
       value: 17
-      objectReference: {fileID: 0}
-    - target: {fileID: 58056514175828840, guid: c37afab846f66be4cba11952530e0260,
-        type: 2}
-      propertyPath: m_Radius
-      value: 0.28
       objectReference: {fileID: 0}
     - target: {fileID: 1633578812534298, guid: c37afab846f66be4cba11952530e0260, type: 2}
       propertyPath: m_Name

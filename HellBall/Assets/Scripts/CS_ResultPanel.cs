@@ -11,6 +11,14 @@ public class CS_ResultPanel : MonoBehaviour {
         gameObject.SetActive(false);
 	}
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            CS_Managers.Instance.gameManager.ED_ResetGame();
+        }
+    }
+
     public void EndGame()
     {
         gameObject.SetActive(true);

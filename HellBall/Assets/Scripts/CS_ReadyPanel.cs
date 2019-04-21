@@ -10,6 +10,14 @@ public class CS_ReadyPanel : MonoBehaviour {
         CS_Managers.Instance.gameManager.ED_ResetGame += ResetGame;
 	}
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            CS_Managers.Instance.gameManager.ED_StartGame();
+        }
+    }
+
     void StartGame()
     {
         gameObject.SetActive(false);

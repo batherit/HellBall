@@ -9,7 +9,7 @@ public class CS_MapGenerator : MonoBehaviour {
     public Text TEXT_CheckedPointsNum;
 
     public const int initObstacleNum = 40;
-    public const int initCheckPointNum = 100;
+    public const int initCheckPointNum = 30;
     private int CheckedPointNum;
 
     GameObject prefabObstacle;

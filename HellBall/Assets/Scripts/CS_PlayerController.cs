@@ -65,6 +65,7 @@ public class CS_PlayerController : MonoBehaviour {
         switch (collision.gameObject.tag)
         {
             case "Obstacle":
+            case "Reaper":
                 ED_Dead();
                 break;
         }
