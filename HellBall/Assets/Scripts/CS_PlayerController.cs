@@ -1,13 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityStandardAssets.CrossPlatformInput;
+using UnityEngine.UI;
 
 public class CS_PlayerController : MonoBehaviour {
 
     public Transform startPoint;
     private float dirX, dirY;
     Rigidbody2D rb;
+
+    public Text TEXT_HP;
+    private int currentHP;
+    private const int maxHP = 3;
 
     public delegate void DELEGATE_Dead();
     public DELEGATE_Dead ED_Dead;
@@ -19,10 +23,11 @@ public class CS_PlayerController : MonoBehaviour {
 
         ED_Dead += Died;
  
-        transform.position = startPoint.position;
         rb = GetComponent<Rigidbody2D>();
         rb.bodyType = RigidbodyType2D.Static;
-	}
+        ResetGame();
+
+    }
 
     public void InitForStart()
     {
@@ -31,6 +36,9 @@ public class CS_PlayerController : MonoBehaviour {
 
     void ResetGame()
     {
+        currentHP = maxHP;
+        TEXT_HP.text = currentHP.ToString("00") + '/'
+                + maxHP.ToString("00");
         transform.position = startPoint.position;
     }
 	
@@ -60,13 +68,29 @@ public class CS_PlayerController : MonoBehaviour {
         rb.bodyType = RigidbodyType2D.Static;
     }
 
+    void Attacked()
+    {
+        if(rb.bodyType == RigidbodyType2D.Dynamic)
+        {
+            currentHP--;
+
+            TEXT_HP.text = currentHP.ToString("00") + '/'
+                + maxHP.ToString("00");
+
+            if(currentHP <= 0)
+            {
+                ED_Dead();
+            }
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         switch (collision.gameObject.tag)
         {
             case "Obstacle":
             case "Reaper":
-                ED_Dead();
+                Attacked();
                 break;
         }
     }
