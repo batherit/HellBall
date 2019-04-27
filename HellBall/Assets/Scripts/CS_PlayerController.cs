@@ -13,10 +13,13 @@ public class CS_PlayerController : MonoBehaviour {
     int currentHP;
     const int maxHP = 10;
 
+    CS_Equipment equipemnt;
+
     public delegate void DELEGATE_Dead();
     public DELEGATE_Dead ED_Dead;
     bool isKnockBack;
-    bool isUpdated;
+    const float knockBackTime = 0.21f;
+    bool isKnockBackUpdated;
     Vector2 target;
     Vector2 posToReach;
     Vector2 dir;
@@ -28,6 +31,8 @@ public class CS_PlayerController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        equipemnt = GameObject.Find("Gun").GetComponent<CS_Gun>();
+
         CS_Managers.Instance.gameManager.ED_StartGame += InitForStart;
         CS_Managers.Instance.gameManager.ED_ResetGame += ResetGame;
 
@@ -49,7 +54,7 @@ public class CS_PlayerController : MonoBehaviour {
     void ResetGame()
     {
         isKnockBack = false;
-        isUpdated = true;
+        isKnockBackUpdated = true;
         elapsedTime = 0.0f;
         currentHP = maxHP;
         if(TEXT_HP)
@@ -68,7 +73,10 @@ public class CS_PlayerController : MonoBehaviour {
             if (!isKnockBack)
             {
                 if(CS_Managers.Instance.InputManager.IsStickDragging()) {
-                    Debug.Log(CS_Managers.Instance.InputManager.GetStickDirection());
+                    if (equipemnt)
+                    {
+                        equipemnt.SetTargetDir(CS_Managers.Instance.InputManager.GetStickDirection());
+                    }
                 }
 
                 dirX = 0.0f;
@@ -89,17 +97,17 @@ public class CS_PlayerController : MonoBehaviour {
             else
             {
                 float deltaTime = Time.deltaTime;
-                if (!isUpdated)
+                if (!isKnockBackUpdated)
                 {
                     dir = new Vector2(rb.velocity.x, rb.velocity.y).normalized;
                     rb.gravityScale = 0.0f;
                     rb.velocity = (dir * length * 0.65f) / 0.21f;
                     rb.interpolation = RigidbodyInterpolation2D.None;
                     posToReach = dir * length + new Vector2(transform.position.x, transform.position.y);
-                    isUpdated = true;
+                    isKnockBackUpdated = true;
                 }
 
-                if (elapsedTime < 0.21f)
+                if (elapsedTime < knockBackTime)
                 {
                     toggleTime += deltaTime;
                     elapsedTime += deltaTime;
@@ -149,7 +157,7 @@ public class CS_PlayerController : MonoBehaviour {
                 length = 0.8f;
             }
 
-            isUpdated = false;
+            isKnockBackUpdated = false;
             toggleTime = 0.0f;
  
             if(currentHP <= 0)

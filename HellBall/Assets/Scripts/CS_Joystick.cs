@@ -15,12 +15,13 @@ public class CS_Joystick : MonoBehaviour {
     public CircleCollider2D reloadCircle;   // 리로드 가능 범위
     float reloadRadius;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    private void Start()
+    {
         stickFirstPos = stick.transform.position;
         marginRadius = marginCircle.radius;
         reloadRadius = reloadCircle.radius;
-	}
+    }
 
     public bool IsStickDragging()
     {

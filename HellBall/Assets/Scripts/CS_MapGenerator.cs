@@ -88,9 +88,6 @@ public class CS_MapGenerator : MonoBehaviour {
 
             while (!isGenerated)
             {
-                //Ray2D ray = new Ray2D(new Vector2(Random.Range(startX, endX), Random.Range(startY + (float)i * gapY, startY + (float)(i + 1) * gapY)), Vector3.zero);
-                //RaycastHit2D hit = Physics2D.CircleCast(ray.origin, radius, ray.direction, Mathf.Infinity, LayerMask.GetMask(new string[] { "Obstacle" }));
-
                 Vector2 pos = new Vector2(Random.Range(startX, endX), Random.Range(startY + i * gapY, startY + (i + 1) * gapY));
                 Collider2D hit = Physics2D.OverlapCircle(pos, radius, LayerMask.GetMask(new string[] { "Obstacle" }));
                 

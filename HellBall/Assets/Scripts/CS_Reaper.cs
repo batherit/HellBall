@@ -35,7 +35,8 @@ public class CS_Reaper : MonoBehaviour {
             // 매 프레임당 0.6% 확률로 방향을 플레이어 쪽으로 갱신.
             if (Random.Range(0.0f, 1.0f) < 0.006f)
             {
-                directionDegree = Mathf.Acos(Vector2.Dot((player.transform.position - transform.position).normalized, Vector2.right)) * Mathf.Rad2Deg;
+                float dot = Vector2.Dot((player.transform.position - transform.position).normalized, Vector2.right);
+                directionDegree = Mathf.Acos(dot) * Mathf.Rad2Deg;
                 if (player.transform.position.y < transform.position.y) directionDegree *= -1.0f;
 
             }
