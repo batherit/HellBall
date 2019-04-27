@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CS_UIButtonManager : MonoBehaviour {
+public class CS_InputManager : MonoBehaviour {
 
     private bool isLeftDown;
     private bool isRightDown;
     private bool isJumpDown;
     private bool isDiveDown;
+    private CS_Joystick joystick;
 
     private void Start()
     {
@@ -15,7 +16,12 @@ public class CS_UIButtonManager : MonoBehaviour {
         isRightDown = false;
         isJumpDown = false;
         isDiveDown = false;
+        joystick = FindObjectOfType<CS_Joystick>();
     }
+
+
+    public bool IsStickDragging() { return joystick.IsStickDragging(); }
+    public Vector2 GetStickDirection() { return joystick.GetStickDirection(); }
 
     public void LeftDown() { isLeftDown = true; }
     public void LeftUp() { isLeftDown = false; }

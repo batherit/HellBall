@@ -7,7 +7,7 @@ public class CS_Managers : MonoBehaviour {
     private static CS_Managers instance;
 
     public CS_GameManager gameManager;
-    public CS_UIButtonManager InputManager;
+    public CS_InputManager InputManager;
 
     public static CS_Managers Instance
     {
@@ -21,14 +21,4 @@ public class CS_Managers : MonoBehaviour {
             return instance;
         }
     }
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

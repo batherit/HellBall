@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CS_GameManager : MonoBehaviour {
-    public CS_PlayerController player;
-    public CS_ElapsedTime elapsedTime;
+    [HideInInspector] public CS_PlayerController player;
+    [HideInInspector] public CS_ElapsedTime elapsedTime;
 
     public delegate void DELEGATE_StartGame();
     public DELEGATE_StartGame ED_StartGame;
@@ -15,10 +15,10 @@ public class CS_GameManager : MonoBehaviour {
     public delegate void DELEGATE_ResetGame();
     public DELEGATE_ResetGame ED_ResetGame;
 
-    
-
     private void Start()
     {
+        player = FindObjectOfType<CS_PlayerController>();
+        elapsedTime = FindObjectOfType<CS_ElapsedTime>();
         player.ED_Dead += EndGame;
     }
 

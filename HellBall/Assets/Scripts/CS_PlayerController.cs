@@ -52,17 +52,25 @@ public class CS_PlayerController : MonoBehaviour {
         isUpdated = true;
         elapsedTime = 0.0f;
         currentHP = maxHP;
-        TEXT_HP.text = currentHP.ToString("00") + '/'
+        if(TEXT_HP)
+        {
+            TEXT_HP.text = currentHP.ToString("00") + '/'
                 + maxHP.ToString("00");
-        transform.position = startPoint.position;
+            transform.position = startPoint.position;
+        }
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (rb.bodyType == RigidbodyType2D.Dynamic)
+        // UI_Testbed => RigidbodyType2D.Static;
+        if (rb.bodyType == RigidbodyType2D.Static)
         {
             if (!isKnockBack)
             {
+                if(CS_Managers.Instance.InputManager.IsStickDragging()) {
+                    Debug.Log(CS_Managers.Instance.InputManager.GetStickDirection());
+                }
+
                 dirX = 0.0f;
                 dirY = 0.0f;
                 if (CS_Managers.Instance.InputManager.IsLeftDown()) { dirX -= 1.0f; }
