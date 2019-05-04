@@ -75,6 +75,7 @@ public class CS_PlayerController : MonoBehaviour {
                 if(CS_Managers.Instance.InputManager.IsStickDragging()) {
                     if (equipemnt)
                     {
+                        equipemnt.AxisAction();
                         equipemnt.SetTargetDir(CS_Managers.Instance.InputManager.GetStickDirection());
                     }
                 }

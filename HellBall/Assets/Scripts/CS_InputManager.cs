@@ -8,7 +8,8 @@ public class CS_InputManager : MonoBehaviour {
     private bool isRightDown;
     private bool isJumpDown;
     private bool isDiveDown;
-    private CS_Joystick joystick;
+    [HideInInspector] public CS_Joystick joystick;
+  
 
     private void Start()
     {
@@ -22,6 +23,7 @@ public class CS_InputManager : MonoBehaviour {
 
     public bool IsStickDragging() { return joystick.IsStickDragging(); }
     public Vector2 GetStickDirection() { return joystick.GetStickDirection(); }
+    public bool IsOutsideOfReloadRadius() { return joystick.IsOutsideOfReloadRadius(); }
 
     public void LeftDown() { isLeftDown = true; }
     public void LeftUp() { isLeftDown = false; }

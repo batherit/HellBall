@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CS_Equipment : MonoBehaviour {
+public abstract class CS_Equipment : MonoBehaviour {
 
     protected float springArmLength;
     protected Transform imagePosL;
@@ -58,8 +58,11 @@ public class CS_Equipment : MonoBehaviour {
         return targetDegree;
     }
 
-    public virtual void Action()
+    public virtual void AxisAction()
     {
-        Debug.Log("EquipmentAction");
+        Debug.Log("EquipmentAction is not defined.");
     }
+
+    public abstract void ResetDelay();
+    public abstract void Reload();
 }
