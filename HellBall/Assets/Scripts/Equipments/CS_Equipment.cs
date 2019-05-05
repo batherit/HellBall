@@ -11,7 +11,7 @@ public abstract class CS_Equipment : MonoBehaviour {
     protected Vector2 targetDir;
     protected float targetDegree;
     protected float rotCoefficient;
-
+    
     private void Awake()
     {
         springArmLength = GameObject.Find("Player").GetComponent<CircleCollider2D>().radius + 0.5f;
@@ -34,6 +34,16 @@ public abstract class CS_Equipment : MonoBehaviour {
         if (targetDir.y <= 0.0f) targetDegree = 360.0f - targetDegree;
     }
 
+    public Vector3 GetPosition()
+    {
+        return imagePosL.transform.position;
+    }
+
+    public Quaternion GetQuaternion()
+    {
+        return imagePosL.transform.rotation;
+    }
+
     private void Update()
     {
         // 타겟 각도를 구함.
@@ -51,6 +61,9 @@ public abstract class CS_Equipment : MonoBehaviour {
 
         currentDegree += toDegree;
         currentDir = new Vector2(Mathf.Cos(currentDegree * Mathf.Deg2Rad), Mathf.Sin(currentDegree * Mathf.Deg2Rad));
+
+        // 위치 변경
+        transform.position = CS_Managers.Instance.gameManager.player.transform.position;
     }
 
     public float GetTargetDeg()
