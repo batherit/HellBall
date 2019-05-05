@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class CS_Bullet : MonoBehaviour {
 
+    float effectiveRange;
+    float travelDistance;
     float velocity;
     Vector2 dir;
     int damage;
@@ -15,12 +17,14 @@ public class CS_Bullet : MonoBehaviour {
         // 정보가 없다면 '평범한 총알'을 흉내낸 정보가 담긴다.
         velocity = 15.0f; // unit sec
         damage = 2;
+        travelDistance = 0.0f;
         isActivated = false;
 	}
 
-    public void SetDirection(Vector2 _dir)
+    public void SetInitInfo(Vector2 _dir, float _effectiveRange)
     {
         isActivated = true;
+        effectiveRange = _effectiveRange;
         dir = _dir;
     }
 
@@ -29,7 +33,16 @@ public class CS_Bullet : MonoBehaviour {
         if (isActivated)
         {   
             float deltaTime = Time.deltaTime;
-            transform.Translate(new Vector2(dir.x * velocity * deltaTime, dir.y * velocity * deltaTime));
+            Vector2 translate = new Vector2(dir.x * velocity * deltaTime, dir.y * velocity * deltaTime);
+            travelDistance += translate.magnitude;
+            
+            if(travelDistance >= effectiveRange)
+            {
+                Debug.Log("Destroy Bullet");
+                DestroyObject(this.gameObject);
+            }
+
+            transform.Translate(translate);
         }
     }
 }

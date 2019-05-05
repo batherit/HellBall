@@ -16,7 +16,7 @@ public abstract class CS_Equipment : MonoBehaviour {
     {
         springArmLength = GameObject.Find("Player").GetComponent<CircleCollider2D>().radius + 0.5f;
         imagePosL = transform.Find("Image").gameObject.transform;
-        imagePosL.position = new Vector3(springArmLength, 0.0f, 0.0f);
+        imagePosL.localPosition = new Vector3(springArmLength, 0.0f, 0.0f);
         // 무기가 위쪽을 향하도록 각도를 조정.
         currentDegree = 0.0f;
         currentDir = new Vector2(1.0f, 0.0f);

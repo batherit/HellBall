@@ -14,13 +14,13 @@ public class CS_Gun : CS_Equipment {
 
     GameObject bulletPrefab;
 
+    float effectiveRange;       // 유효 사정 거리
+    float reboundDegree;        // 반동 정도(총이 뒤로 밀리는 정도)
     float delay;                // 다음 발사까지 딜레이
     float delayInGroupMode;     // 그룹 모드에서의 각 탄환의 발사 시간 간격
-
     int maxBulletNum;           // 최대 탄환 수 (불변)
     int curBulletNum;           // 현재 탄환 수 (고정)
     float reloadTime;           // 재장전 시간
-
     float elapsedTime;          // 경과 시간
 
     private void Start()
@@ -28,6 +28,8 @@ public class CS_Gun : CS_Equipment {
         // 정보가 없다면 '권총'을 흉내낸 정보가 담긴다.
         bulletPrefab = Resources.Load("Prefabs/Bullet") as GameObject;
         shotMode = E_ShotMode.Independent;
+        effectiveRange = 100.0f;    // unit m
+        reboundDegree = 0.2f;       // 반동 정도
         delay = 0.25f;
         delayInGroupMode = 0.0f;
         maxBulletNum = 6;
@@ -37,6 +39,13 @@ public class CS_Gun : CS_Equipment {
         CS_Managers.Instance.InputManager.joystick.ED_Enter += ResetDelay;
         CS_Managers.Instance.InputManager.joystick.ED_Exit += Reload;
     }
+
+    //private void Update()
+    //{
+    //    // 반동에 대한 회복
+    //    float translate = (springArmLength - imagePosL.localPosition.x) * 0.4f;
+    //    imagePosL.localPosition = new Vector3(imagePosL.localPosition.x + translate, 0.0f, 0.0f);
+    //}
 
     public override void AxisAction()
     {
@@ -52,12 +61,22 @@ public class CS_Gun : CS_Equipment {
                     GameObject newObject = Instantiate(bulletPrefab);
                     CS_Bullet bullet = newObject.GetComponent<CS_Bullet>();
                     bullet.transform.position = GetPosition();
-                    bullet.SetDirection(currentDir);
+                    bullet.SetInitInfo(currentDir, effectiveRange);
+                    ReboundAgainstShot();
                     Debug.Log("Action!");
                 }
                 elapsedTime = 0.0f;
             }
         }
+
+        // 반동에 대한 회복
+        float translate = (springArmLength - imagePosL.localPosition.x) * 0.4f;
+        imagePosL.localPosition = new Vector3(imagePosL.localPosition.x + translate, 0.0f, 0.0f);
+    }
+
+    public void ReboundAgainstShot()
+    {
+        imagePosL.localPosition = new Vector3(springArmLength - reboundDegree, 0.0f, 0.0f);
     }
 
     public override void ResetDelay()
