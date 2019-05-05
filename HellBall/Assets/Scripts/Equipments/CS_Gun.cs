@@ -13,6 +13,8 @@ public class CS_Gun : CS_Equipment {
     E_ShotMode shotMode;        // 샷 모드
 
     GameObject bulletPrefab;
+    public AudioSource soundBang;
+    public AudioSource soundReload;
 
     float effectiveRange;       // 유효 사정 거리
     float reboundDegree;        // 반동 정도(총이 뒤로 밀리는 정도)
@@ -22,6 +24,7 @@ public class CS_Gun : CS_Equipment {
     int curBulletNum;           // 현재 탄환 수 (고정)
     float reloadTime;           // 재장전 시간
     float elapsedTime;          // 경과 시간
+    bool isReloadCompleted;     // 장전이 완료되었는지?
 
     private void Start()
     {
@@ -34,8 +37,10 @@ public class CS_Gun : CS_Equipment {
         delayInGroupMode = 0.0f;
         maxBulletNum = 6;
         curBulletNum = maxBulletNum;
-        reloadTime = 0.2f;
-        elapsedTime = reloadTime;
+        reloadTime = 0.8f;
+        // elapsedTime = reloadTime;
+        isReloadCompleted = false;
+        //elapsedTime = 0.0f;
         CS_Managers.Instance.InputManager.joystick.ED_Enter += ResetDelay;
         CS_Managers.Instance.InputManager.joystick.ED_Exit += Reload;
     }
@@ -53,19 +58,32 @@ public class CS_Gun : CS_Equipment {
         {
             elapsedTime += Time.deltaTime;
 
-            if(elapsedTime >= delay)
+            if(!isReloadCompleted)
             {
-                if(curBulletNum > 0)
+                if(elapsedTime >= reloadTime)
                 {
-                    curBulletNum--;
-                    GameObject newObject = Instantiate(bulletPrefab);
-                    CS_Bullet bullet = newObject.GetComponent<CS_Bullet>();
-                    bullet.transform.position = GetPosition();
-                    bullet.SetInitInfo(currentDir, effectiveRange);
-                    ReboundAgainstShot();
-                    Debug.Log("Action!");
+                    curBulletNum = maxBulletNum;
+                    isReloadCompleted = true;
+                    elapsedTime = reloadTime;
                 }
-                elapsedTime = 0.0f;
+            }
+            else
+            {
+                if (elapsedTime >= delay)
+                {
+                    if (curBulletNum > 0)
+                    {
+                        curBulletNum--;
+                        soundBang.Play();
+                        GameObject newObject = Instantiate(bulletPrefab);
+                        CS_Bullet bullet = newObject.GetComponent<CS_Bullet>();
+                        bullet.transform.position = GetPosition();
+                        bullet.SetInitInfo(currentDir, effectiveRange);
+                        ReboundAgainstShot();
+                        Debug.Log("Action!");
+                    }
+                    elapsedTime = 0.0f;
+                }
             }
         }
 
@@ -81,15 +99,18 @@ public class CS_Gun : CS_Equipment {
 
     public override void ResetDelay()
     {
-        Debug.Log("ResetDelay");
-        elapsedTime = reloadTime;
-        //throw new System.NotImplementedException();
+        // Debug.Log("ResetDelay");
+        elapsedTime = 0.0f;
+        isReloadCompleted = false;
+        // elapsedTime = 0.0f;
+        // throw new System.NotImplementedException();
     }
 
     public override void Reload()
     {
-        Debug.Log("Reload");
-        curBulletNum = maxBulletNum;
-        //throw new System.NotImplementedException();
+        // Debug.Log("Reload");
+        // curBulletNum = maxBulletNum;
+        soundReload.Play();
+        // throw new System.NotImplementedException();
     }
 }
