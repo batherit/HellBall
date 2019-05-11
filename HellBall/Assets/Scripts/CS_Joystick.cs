@@ -14,23 +14,27 @@ public class CS_Joystick : MonoBehaviour {
     Vector3 stickFirstPos;      // 조이스틱 처음 위치
     Vector3 stickDir;           // 조이스틱의 방향
 
-    public CircleCollider2D marginCircle;   // 조이스틱 움직임 한계 범위
+    public CircleCollider2D marginArea;   // 조이스틱 움직임 한계 범위
     float marginRadius;
-    public CircleCollider2D reloadCircle;   // 리로드 가능 범위
-    float reloadRadius;
+    public CircleCollider2D standbyArea;   // 리로드 가능 범위
+    float standbyRadius;
     bool isOutsideOfReloadRadius;
 
     public delegate void DELEGATE_OnReloadRadiusEnter();
-    public DELEGATE_OnReloadRadiusEnter ED_Enter;
+    public DELEGATE_OnReloadRadiusEnter ED_Standby;
     public delegate void DELEGATE_OnReloadRadiusExit();
-    public DELEGATE_OnReloadRadiusExit ED_Exit;
+    public DELEGATE_OnReloadRadiusExit ED_Action;
+    public delegate void DELEGATE_OnPointerDown();
+    public DELEGATE_OnPointerDown ED_StickDown;
+    //public delegate void DELEGATE_OnPointerUp();
+    //public DELEGATE_OnPointerUp ED_Up;
 
     // Use this for initialization
     private void Start()
     {
         stickFirstPos = stick.transform.position;
-        marginRadius = marginCircle.radius;
-        reloadRadius = reloadCircle.radius;
+        marginRadius = marginArea.radius;
+        standbyRadius = standbyArea.radius;
         normSprite = Resources.Load<Sprite>("Textures/TX_Joypad");
         execSprite = Resources.Load<Sprite>("Textures/TX_Joypad_Exec");
         isOutsideOfReloadRadius = false;
@@ -54,16 +58,20 @@ public class CS_Joystick : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        ED_Enter();
+        ED_Standby();
         image.sprite = normSprite;
         isOutsideOfReloadRadius = false;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        ED_Exit();
         image.sprite = execSprite;
         isOutsideOfReloadRadius = true;
+    }
+
+    public void OnPointerDown(BaseEventData _data)
+    {
+        ED_StickDown();
     }
 
     public void Drag(BaseEventData _data)

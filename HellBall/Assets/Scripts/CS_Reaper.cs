@@ -16,7 +16,7 @@ public class CS_Reaper : MonoBehaviour {
     private const float radius = 10.0f;
     private const float velocity = 3.0f;
 
-    private bool isActived;
+    public bool isActived;
 
     private void Start()
     {

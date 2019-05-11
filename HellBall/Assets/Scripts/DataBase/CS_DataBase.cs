@@ -8,7 +8,7 @@ public class CS_DataBase : MonoBehaviour {
 
     private Hashtable guns = new Hashtable();
 
-    private void Start()
+    private void Awake()
     {
         guns.Add("Gun", new S_GunInfo(E_ShotMode.Independent, 100.0f, 0.2f, 0.25f, 0.0f, 6, 0.8f));
     }

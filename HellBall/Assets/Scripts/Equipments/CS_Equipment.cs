@@ -76,6 +76,6 @@ public abstract class CS_Equipment : MonoBehaviour {
         Debug.Log("EquipmentAction is not defined.");
     }
 
-    public abstract void ResetDelay();
-    public abstract void Reload();
+    //public abstract void UpdateRemainingTime();
+    //public abstract void Reload();
 }

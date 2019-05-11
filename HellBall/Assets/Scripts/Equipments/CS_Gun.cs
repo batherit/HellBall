@@ -21,6 +21,7 @@ public class CS_Gun : CS_Equipment {
     int curBulletNum;           // 현재 탄환 수 (유동)
     float reloadTime;           // 재장전 시간
     float elapsedTime;          // 경과 시간
+    float remainingTime;        // 잔여 시간
     bool isReloadCompleted;     // 장전이 완료되었는지?
 
     private void Start()
@@ -29,8 +30,9 @@ public class CS_Gun : CS_Equipment {
         // 정보가 없다면 '권총'을 흉내낸 정보가 담긴다.
         bulletPrefab = Resources.Load("Prefabs/Bullet") as GameObject;
         SetGunInfo(defaultGunInfo);
-        CS_Managers.Instance.InputManager.joystick.ED_Enter += ResetDelay;
-        CS_Managers.Instance.InputManager.joystick.ED_Exit += Reload;
+        CS_Managers.Instance.InputManager.joystick.ED_Standby += UpdateRemainingTime;
+        CS_Managers.Instance.InputManager.joystick.ED_Action += UpdateElapsedTime;
+        CS_Managers.Instance.InputManager.joystick.ED_StickDown += Reload;
     }
 
     public void SetGunInfo(S_GunInfo gunInfo)
@@ -47,17 +49,11 @@ public class CS_Gun : CS_Equipment {
         elapsedTime = 0.0f;
     }
 
-    //private void Update()
-    //{
-    //    // 반동에 대한 회복
-    //    float translate = (springArmLength - imagePosL.localPosition.x) * 0.4f;
-    //    imagePosL.localPosition = new Vector3(imagePosL.localPosition.x + translate, 0.0f, 0.0f);
-    //}
-
     public override void AxisAction()
     {
         if(CS_Managers.Instance.InputManager.IsOutsideOfReloadRadius())
         {
+            //elapsedTime = delay - remainingTime;
             elapsedTime += Time.deltaTime;
 
             if(!isReloadCompleted)
@@ -66,7 +62,9 @@ public class CS_Gun : CS_Equipment {
                 {
                     curBulletNum = maxBulletNum;
                     isReloadCompleted = true;
-                    elapsedTime = reloadTime;
+                    // 장전이 완료되면 바로 쏠 수 있도록 함.
+                    remainingTime = 0.0f;
+                    elapsedTime = delay - remainingTime;        
                 }
             }
             else
@@ -82,11 +80,14 @@ public class CS_Gun : CS_Equipment {
                         bullet.transform.position = GetPosition();
                         bullet.SetInitInfo(currentDir, effectiveRange);
                         ReboundAgainstShot();
-                        Debug.Log("Action!");
                     }
                     elapsedTime = 0.0f;
                 }
             }
+        }
+        else
+        {
+            remainingTime = Mathf.Clamp(remainingTime - Time.deltaTime, 0.0f, delay);
         }
 
         // 반동에 대한 회복
@@ -99,20 +100,21 @@ public class CS_Gun : CS_Equipment {
         imagePosL.localPosition = new Vector3(springArmLength - reboundDegree, 0.0f, 0.0f);
     }
 
-    public override void ResetDelay()
+    // 스텐바이 상태로 돌입할 때 갱신된다.
+    public void UpdateRemainingTime()
     {
-        // Debug.Log("ResetDelay");
-        elapsedTime = 0.0f;
-        isReloadCompleted = false;
-        // elapsedTime = 0.0f;
-        // throw new System.NotImplementedException();
+        remainingTime = delay - elapsedTime;    
     }
 
-    public override void Reload()
+    public void UpdateElapsedTime()
     {
-        // Debug.Log("Reload");
-        // curBulletNum = maxBulletNum;
+        elapsedTime = delay - remainingTime;
+    }
+
+    public void Reload()
+    {
+        elapsedTime = 0.0f;
+        isReloadCompleted = false;
         soundReload.Play();
-        // throw new System.NotImplementedException();
     }
 }

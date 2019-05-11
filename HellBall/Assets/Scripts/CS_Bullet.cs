@@ -38,7 +38,6 @@ public class CS_Bullet : MonoBehaviour {
             
             if(travelDistance >= effectiveRange)
             {
-                Debug.Log("Destroy Bullet");
                 DestroyObject(this.gameObject);
             }
 
