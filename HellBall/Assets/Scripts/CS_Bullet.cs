@@ -12,6 +12,8 @@ public class CS_Bullet : MonoBehaviour {
     int damage;
     bool isActivated;
 
+    public AudioSource soundAttack;
+
 	// Use this for initialization
 	void Awake () {
         // 정보가 없다면 '평범한 총알'을 흉내낸 정보가 담긴다.
@@ -43,5 +45,10 @@ public class CS_Bullet : MonoBehaviour {
 
             transform.Translate(translate);
         }
+    }
+
+    public Vector2 GetVelocity()
+    {
+        return dir * velocity;
     }
 }
