@@ -148,10 +148,29 @@ public class CS_Reaper : MonoBehaviour {
         knockbackDir = new Vector2(_bullet.GetVelocity().x, _bullet.GetVelocity().y).normalized;
         posToReach = knockbackDir * knockbackLength + new Vector2(transform.position.x, transform.position.y);
 
+        // posToReach가 활동 영역을 넘지 않도록 보정한다.
+        if (mapBoundary.bounds.min.x > posToReach.x)
+        {
+            posToReach.x = mapBoundary.bounds.min.x;
+        }
+        else if (mapBoundary.bounds.max.x < posToReach.x)
+        {
+            posToReach.x = mapBoundary.bounds.max.x;
+        }
+
+        if (mapBoundary.bounds.min.y > posToReach.y)
+        {
+            posToReach.y = mapBoundary.bounds.min.y;
+        }
+        else if (mapBoundary.bounds.max.y < posToReach.y)
+        {
+            posToReach.y = mapBoundary.bounds.max.y;
+        }
+
         _bullet.soundAttack.Play();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Bullet")
         {

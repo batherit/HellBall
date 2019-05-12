@@ -11,7 +11,7 @@ public class CS_InputManager : MonoBehaviour {
     [HideInInspector] public CS_Joystick joystick;
   
 
-    private void Start()
+    private void Awake()
     {
         isLeftDown = false;
         isRightDown = false;
@@ -19,7 +19,6 @@ public class CS_InputManager : MonoBehaviour {
         isDiveDown = false;
         joystick = FindObjectOfType<CS_Joystick>();
     }
-
 
     public bool IsStickDragging() { return joystick.IsStickDragging(); }
     public Vector2 GetStickDirection() { return joystick.GetStickDirection(); }

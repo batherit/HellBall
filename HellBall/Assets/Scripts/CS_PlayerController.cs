@@ -68,7 +68,7 @@ public class CS_PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         // UI_Testbed => RigidbodyType2D.Static;
-        if (rb.bodyType == RigidbodyType2D.Static)
+        if (rb.bodyType == RigidbodyType2D.Dynamic)
         {
             if (!isKnockBack)
             {
@@ -101,7 +101,7 @@ public class CS_PlayerController : MonoBehaviour {
                 if (!isKnockBackUpdated)
                 {
                     dir = new Vector2(rb.velocity.x, rb.velocity.y).normalized;
-                    rb.gravityScale = 0.0f;
+                   // rb.gravityScale = 0.0f;
                     rb.velocity = (dir * length * 0.65f) / 0.21f;
                     rb.interpolation = RigidbodyInterpolation2D.None;
                     posToReach = dir * length + new Vector2(transform.position.x, transform.position.y);
@@ -130,7 +130,7 @@ public class CS_PlayerController : MonoBehaviour {
                 else
                 {
                     elapsedTime = 0.0f;
-                    rb.gravityScale = 1.0f;
+                    //rb.gravityScale = 1.0f;
                     rb.interpolation = RigidbodyInterpolation2D.Extrapolate;
                     sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 1.0f);
                     isKnockBack = false;

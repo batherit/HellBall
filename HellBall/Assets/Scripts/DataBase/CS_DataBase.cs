@@ -11,6 +11,7 @@ public class CS_DataBase : MonoBehaviour {
     private void Awake()
     {
         guns.Add("Gun", new S_GunInfo(E_ShotMode.Independent, 100.0f, 0.2f, 0.25f, 0.0f, 6, 0.8f));
+        guns.Add("Rifle", new S_GunInfo(E_ShotMode.Independent, 100.0f, 0.2f, 0.1f, 0.0f, 30, 1.0f));
     }
 
     public static CS_DataBase Instance

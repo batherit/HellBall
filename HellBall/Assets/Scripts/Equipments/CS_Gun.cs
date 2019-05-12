@@ -26,7 +26,7 @@ public class CS_Gun : CS_Equipment {
 
     private void Start()
     {
-        S_GunInfo defaultGunInfo = CS_DataBase.Instance.GetGunInfo("Gun");
+        S_GunInfo defaultGunInfo = CS_DataBase.Instance.GetGunInfo("Rifle");
         // 정보가 없다면 '권총'을 흉내낸 정보가 담긴다.
         bulletPrefab = Resources.Load("Prefabs/Bullet") as GameObject;
         SetGunInfo(defaultGunInfo);
@@ -78,7 +78,8 @@ public class CS_Gun : CS_Equipment {
                         GameObject newObject = Instantiate(bulletPrefab);
                         CS_Bullet bullet = newObject.GetComponent<CS_Bullet>();
                         bullet.transform.position = GetPosition();
-                        bullet.SetInitInfo(currentDir, effectiveRange);
+                        //bullet.SetInitInfo(currentDir, 25.0f, 4.0f, E_BulletType.Group, 8, 20.0f);
+                        bullet.SetInitInfo(currentDir, 25.0f, 100.0f);
                         ReboundAgainstShot();
                     }
                     elapsedTime = 0.0f;

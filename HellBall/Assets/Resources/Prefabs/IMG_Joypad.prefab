@@ -24,7 +24,6 @@ GameObject:
   - component: {fileID: 114742301493884890}
   - component: {fileID: 50338890592545626}
   - component: {fileID: 58724188110293180}
-  - component: {fileID: 114711008072889248}
   m_Layer: 5
   m_Name: IMG_Stick
   m_TagString: Untagged
@@ -44,7 +43,6 @@ GameObject:
   - component: {fileID: 114492066441985512}
   - component: {fileID: 58434700545295490}
   - component: {fileID: 58203706076296744}
-  - component: {fileID: 58169595364525114}
   - component: {fileID: 114709900962356238}
   m_Layer: 5
   m_Name: IMG_Joypad
@@ -73,21 +71,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!58 &58169595364525114
-CircleCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1608248591879152}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 46.9
 --- !u!58 &58203706076296744
 CircleCollider2D:
   m_ObjectHideFlags: 1
@@ -97,7 +80,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -109,7 +92,7 @@ CircleCollider2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1608248591879152}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -127,7 +110,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -175,20 +158,6 @@ MonoBehaviour:
   image: {fileID: 114492066441985512}
   marginArea: {fileID: 58434700545295490}
   standbyArea: {fileID: 58203706076296744}
-  reloadArea: {fileID: 58169595364525114}
---- !u!114 &114711008072889248
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1309658505645470}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06398762858164f47a31c3448336c67d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  standbyArea: {fileID: 0}
-  reloadArea: {fileID: 0}
 --- !u!114 &114742301493884890
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -241,23 +210,6 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 114709900962356238}
           m_MethodName: OnPointerDown
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  - eventID: 3
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 114709900962356238}
-          m_MethodName: OnPointerUp
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
