@@ -47,7 +47,7 @@ public abstract class CS_Equipment : MonoBehaviour {
     private void Update()
     {
         // 타겟 각도를 구함.
-        float dot = Vector2.Dot(currentDir, targetDir);
+        float dot = Mathf.Clamp(Vector2.Dot(currentDir, targetDir), -1.0f, 1.0f);
         float toDegree = Mathf.Acos(dot) * Mathf.Rad2Deg;
 
         // 회전축을 구함.

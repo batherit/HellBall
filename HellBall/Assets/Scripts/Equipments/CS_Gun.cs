@@ -51,24 +51,28 @@ public class CS_Gun : CS_Equipment {
 
     public override void AxisAction()
     {
-        if(CS_Managers.Instance.InputManager.IsOutsideOfReloadRadius())
+        // 장전 요청이 들어오면 장전을 수행함.
+        if (!isReloadCompleted)
         {
-            //elapsedTime = delay - remainingTime;
             elapsedTime += Time.deltaTime;
 
-            if(!isReloadCompleted)
+            if (elapsedTime >= reloadTime)
             {
-                if(elapsedTime >= reloadTime)
-                {
-                    curBulletNum = maxBulletNum;
-                    isReloadCompleted = true;
-                    // 장전이 완료되면 바로 쏠 수 있도록 함.
-                    remainingTime = 0.0f;
-                    elapsedTime = delay - remainingTime;        
-                }
+                curBulletNum = maxBulletNum;
+                isReloadCompleted = true;
+                // 장전이 완료되면 바로 쏠 수 있도록 함.
+                remainingTime = 0.0f;
+                elapsedTime = delay - remainingTime;
             }
-            else
+        }
+
+        if (CS_Managers.Instance.InputManager.IsOutsideOfReloadRadius())
+        {
+            //elapsedTime = delay - remainingTime;
+            if(isReloadCompleted)
             {
+                elapsedTime += Time.deltaTime;
+
                 if (elapsedTime >= delay)
                 {
                     if (curBulletNum > 0)
@@ -104,11 +108,13 @@ public class CS_Gun : CS_Equipment {
     // 스텐바이 상태로 돌입할 때 갱신된다.
     public void UpdateRemainingTime()
     {
+        Debug.Log("Standby");
         remainingTime = delay - elapsedTime;    
     }
 
     public void UpdateElapsedTime()
     {
+        Debug.Log("Action");
         elapsedTime = delay - remainingTime;
     }
 

@@ -65,6 +65,7 @@ public class CS_Joystick : MonoBehaviour {
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        ED_Action();
         image.sprite = execSprite;
         isOutsideOfReloadRadius = true;
     }

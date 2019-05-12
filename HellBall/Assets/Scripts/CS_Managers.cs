@@ -8,6 +8,7 @@ public class CS_Managers : MonoBehaviour {
 
     public CS_GameManager gameManager;
     public CS_InputManager InputManager;
+    public CS_AudioManager audioManager;
 
     public static CS_Managers Instance
     {

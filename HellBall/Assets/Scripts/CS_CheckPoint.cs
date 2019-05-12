@@ -9,6 +9,7 @@ public class CS_CheckPoint : MonoBehaviour {
     {
         if (collision.gameObject.name == "Player")
         {
+            CS_Managers.Instance.audioManager.soundCheck.Play();
             mapGenerator.IncreaseCheckedPointsNum();
             DestroyObject(gameObject);
         }

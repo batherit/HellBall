@@ -231,11 +231,6 @@ Prefab:
       propertyPath: player
       value: 
       objectReference: {fileID: 1622607802}
-    - target: {fileID: 114155080094493026, guid: 07077a3c33da7f8448cc15f51499f3ea,
-        type: 2}
-      propertyPath: elapsedTime
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 07077a3c33da7f8448cc15f51499f3ea, type: 2}
   m_IsPrefabParent: 0
@@ -447,6 +442,11 @@ Prefab:
       propertyPath: TEXT_HP
       value: 
       objectReference: {fileID: 1153315299}
+    - target: {fileID: 114610667232708360, guid: 0df4ac3e07b884145b7b6780f95ef95a,
+        type: 2}
+      propertyPath: soundCheck
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0df4ac3e07b884145b7b6780f95ef95a, type: 2}
   m_IsPrefabParent: 0
